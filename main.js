@@ -1,59 +1,48 @@
-function Celular(modelo, cor) {
+
+function Veiculo(marca, modelo, ano) {
+    this.marca = marca;
     this.modelo = modelo;
-    this.cor = cor;
-    this.bateria = function() {
-        console.log("bateria");
-    }
+    this.ano = ano;
 }
 
-const celularDaMaria = {
-    modelo: 'sansug',
-    cor: 'branco',
-    bateria: function() {
-        console.log("100%");
-    }
+// Método "abstrato" que será sobrescrito nas classes filhas
+Veiculo.prototype.ligar = function () {
+    throw new Error("Método 'ligar' deve ser implementado nas classes filhas.");
+};
+
+// Classes filhas
+function Carro(marca, modelo, ano) {
+    // Chama o construtor da classe pai
+    Veiculo.call(this, marca, modelo, ano);
 }
 
-const celularDoJoao ={
-    modelo: 'iphone',
-    cor: 'preto',
-    bateria: function() {
-        console.log("70%");
-    }
+Carro.prototype = Object.create(Veiculo.prototype);
+Carro.prototype.constructor = Carro;
+
+// Implementação do método ligar para Carro
+Carro.prototype.ligar = function () {
+    return `O carro ${this.marca} ${this.modelo} está ligado.`;
+};
+
+function Moto(marca, modelo, ano) {
+    // Chama o construtor da classe pai
+    Veiculo.call(this, marca, modelo, ano);
 }
 
-const celularDoMatheus ={
-    modelo: 'xiaomi',
-    cor: 'vermelho',
-    bateria: function() {
-        console.log("10%");
-    }
-}
+Moto.prototype = Object.create(Veiculo.prototype);
+Moto.prototype.constructor = Moto;
 
+// Implementação do método ligar para Moto
+Moto.prototype.ligar = function () {
+    return `A moto ${this.marca} ${this.modelo} está ligada.`;
+};
 
+// Três instâncias de objetos
+var veiculo1 = new Carro("Toyota", "Corolla", 2022);
+var veiculo2 = new Moto("Honda", "CBR500R", 2021);
+var veiculo3 = new Carro("Ford", "Fiesta", 2019);
 
-const celularDaMaria2 = new Celular("sansug", "branco");
-const celularDoJoao2 = new Celular("iphone", "preto");
-const celularDoMatheus2 = new Celular("xiaomi", "vermelho");
-
-console.log(celularDaMaria2)
-console.log(celularDoJoao2)
-console.log(celularDoMatheus2)
-
-const nome = "matheus"
-const idade = 19
-const ehMaiorDeIdade = true
-const conhecimentos = ["html", "css", "javascript"]
-
-const pessoa = {
-    nome: nome,
-    idade: idade,
-    ehMaiorDeIdade: ehMaiorDeIdade,
-    conhecimentos: conhecimentos,
-}
-
-console.log(typeof nome);
-console.log(typeof idade);
-console.log(typeof ehMaiorDeIdade);
-console.log(typeof conhecimentos);
-console.log(typeof pessoa);
+// Testando as instâncias
+console.log(veiculo1.ligar());
+console.log(veiculo2.ligar());
+console.log(veiculo3.ligar());
